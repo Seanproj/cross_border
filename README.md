@@ -1,41 +1,58 @@
 # Cross-border Life OS
-**AI-powered Relocation Assistant**
+**AI-powered Relocation Assistant** — 한국 → 독일(베를린·프랑크푸르트) 이주 업무를 개인별 체크리스트, 선행 조건이 반영된 일정, 공식 출처 기반 AI 안내로 바꾸는 웹 애플리케이션입니다.
 
-해외 이주 과정의 복잡한 업무를 개인별 체크리스트, 일정, 공식 출처 기반 AI 가이드로 바꾸는 웹 애플리케이션입니다.
+> 이 서비스는 일반 정보를 제공하며 법률·세무·비자 자문이 아닙니다.
 
-## 프로젝트 목표
-- 실제 이주 업무를 관리하는 데 쓸 수 있는 제품을 만든다.
-- LLM을 단순 챗봇이 아니라 구조화·검색·추천·검증 흐름에 활용한다.
-- AI의 정확성과 근거성을 테스트 데이터로 측정한다.
-- 90일 안에 공개 가능한 웹앱과 기술 포트폴리오를 완성한다.
+## 이 프로젝트가 보여주려는 것
+1. **AI가 사용자 상황을 구조화** — 자연어 → 검증된 프로필 (신뢰도·누락 정보 표시)
+2. **공식 출처 기반 신뢰성** — 모든 업무·답변을 원문 인용문과 연결하고, 출처 없는 기한은 만들지 않음
+3. **AI 결과의 정확성 테스트·개선** — 평가 케이스·지표·버전 비교를 공개
 
-## MVP 범위
-1. 이주 프로필 입력 및 구조화
-2. 개인화된 행정 체크리스트
-3. 업무 상태 및 의존성 기반 타임라인
-4. 공식 출처 기반 RAG 행정 가이드
-5. 다음 행동(Next Best Action) 추천
-6. AI Evaluation 결과 화면
+## 현재 상태 (Week 2)
+| 단계 | 상태 |
+|---|---|
+| PRD v1.1, 결정 기록 | 완료 — `docs/PRD.md`, `docs/DECISIONS.md` |
+| 공식 출처 14개, 업무 템플릿 30개, 평가 시드 10개 | 완료 (사람 검토 대기) — `data/`, `eval/`, `docs/SOURCE_REVIEW.md` |
+| DB 스키마·RLS·시드·테스트 | 완료 — `supabase/migrations/`, `tests/` |
+| UI · AI · 평가 화면 | 예정 — `docs/ROADMAP.md` |
 
-초기 출시 범위는 **한국에서 독일로 이주하는 시나리오**로 제한합니다. 데이터 모델은 국가 확장을 고려하되, 여러 국가의 절차를 동시에 완성하려 하지 않습니다.
+## 개발 환경
 
-## 권장 기술 스택
-- Next.js + TypeScript
-- Tailwind CSS + shadcn/ui
-- Supabase (PostgreSQL, Auth, Storage)
-- pgvector (RAG 검색)
-- Claude API 또는 OpenAI API (모델 공급자는 환경변수로 추상화)
-- Vercel 배포
-- Vitest 또는 동등한 테스트 도구
+필요한 것: Node.js 22, pnpm, Docker.
 
-## 시작 방법
-1. `MASTER_PROMPT.md`를 Claude Code 프로젝트 지침으로 사용합니다.
-2. `docs/PRD.md`와 `docs/ARCHITECTURE.md`를 먼저 읽게 합니다.
-3. 한 번에 전체 앱을 생성하지 말고 `docs/ROADMAP.md`의 주차별 범위대로 진행합니다.
-4. 각 기능은 테스트와 완료 조건을 통과한 후 병합합니다.
+```bash
+pnpm install          # 라이브러리 설치
+cp .env.example .env  # 로컬 DB 주소 (비밀값 없음)
 
-## 중요 원칙
-- 비자·세무·법률 조언을 제공하는 서비스가 아닙니다.
-- 공식 출처가 확인되지 않은 규정, 기한, 비용을 사실처럼 생성하지 않습니다.
-- 국가별 절차는 관할 지역과 개인 상황에 따라 달라질 수 있습니다.
-- 실제 사용자 개인정보와 문서 원본은 MVP에서 불필요하게 수집하지 않습니다.
+pnpm db:up            # 테스트용 Postgres(Supabase 이미지) 컨테이너 시작
+pnpm db:migrate       # 테이블·권한 생성
+pnpm db:seed          # data/, eval/ 의 YAML 검증 후 DB에 입력
+
+pnpm dev              # http://localhost:3000
+```
+
+| 명령 | 하는 일 |
+|---|---|
+| `pnpm verify` | 타입 검사 + 린트 + 단위 테스트 + 데이터 검사 (커밋 전 실행) |
+| `pnpm test` | 단위 테스트 (DB 불필요) |
+| `pnpm test:db` | DB 테스트: 마이그레이션, 사용자별 접근 제한(RLS), 제약 조건, 시드 (`pnpm db:up` 필요) |
+| `pnpm data:check` | 출처·템플릿·평가 케이스 YAML만 검사 |
+| `pnpm db:down` | 테스트 DB 컨테이너 삭제 (데이터도 삭제) |
+
+Supabase 전체 로컬 스택(로그인 포함)은 3주차부터 `npx supabase start`로 사용합니다. 클라우드 개발 환경에서는 `SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io`가 필요할 수 있습니다 (`docs/DECISIONS.md` D-13).
+
+## 폴더 구조
+```text
+data/sources, data/templates   공식 출처와 업무 템플릿 (YAML, PR 리뷰 대상)
+eval/cases                     AI 평가 케이스 (YAML)
+supabase/migrations            DB 스키마 + RLS
+src/lib/validation             Zod 스키마 (데이터 파일·AI 출력 공용)
+src/server/domain              순수 도메인 규칙 (LLM 없음)
+src/server/db, src/server/data DB 마이그레이션·시드, YAML 로더
+scripts/                       CLI (db, curation)
+tests/unit, tests/db           테스트
+docs/                          PRD, 아키텍처, 결정 기록, 와이어프레임, 평가 계획
+```
+
+## 문서
+`MASTER_PROMPT.md` (작업 원칙) · `docs/PRD.md` · `docs/ARCHITECTURE.md` · `docs/DATA_SPEC.md` · `docs/DECISIONS.md` · `docs/WIREFRAMES.md` · `docs/AI_EVALUATION.md` · `docs/ROADMAP.md` · `docs/SOURCE_REVIEW.md`

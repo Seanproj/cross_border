@@ -15,3 +15,7 @@
 | D-09 | 2026-11-21 | 프로필에 `move_in_date`(입주일, 선택) 추가. "입주 후 N일" 기한의 기준일 | 업무마다 따로 입력받는 것보다 단순. 값이 없으면 날짜를 계산하지 않음 | 승인 |
 | D-10 | 2026-11-21 | 출처 검증 2단계: AI 자동 수집(`checked_by: ai_fetch`, 템플릿 `needs_review`) → 사람 검토(`human`, `verified`). 체크리스트에는 `verified`만 노출 | 공식 정보의 최종 확인은 사람이 해야 함. 검토 이력이 git에 남음 | 승인 |
 | D-11 | 2026-11-21 | 이 저장소 전용 클라우드 환경 `cross_border` 생성 (공식 사이트 17개 도메인만 허용) | 기본 환경이 독일 공식 사이트 접속을 차단 | 승인 |
+| D-12 | 2026-11-21 | 로컬 Supabase에서 storage·realtime·analytics·edge_runtime 비활성화 | MVP 미사용 (문서 업로드·실시간 기능 제외). 로컬 기동이 가벼워짐 | 승인 |
+| D-13 | 2026-11-21 | DB 테스트는 `supabase/postgres` 이미지 단독 컨테이너 + 자체 마이그레이션 러너(`pnpm db:migrate`)로 실행. 마이그레이션 기록은 Supabase CLI와 같은 테이블에 저장 | 클라우드 환경에서 Supabase CLI 기본 레지스트리(AWS ECR) 차단, Docker Hub 익명 다운로드 한도 초과. CI와 로컬이 같은 방식으로 동작 | 승인 |
+| D-14 | 2026-11-21 | Next.js 16.4 + React 19.3 + TypeScript 5.9 (strict) + Tailwind 4 + Vitest 5 + Zod 4 | create-next-app 기본값. TypeScript 7은 생태계 호환 확인 전까지 보류 | 승인 |
+| D-15 | 2026-11-21 | 공식 기한 날짜는 DB에 저장하지 않고 템플릿 규칙 + 프로필 기준일로 계산. `user_tasks.target_date`는 사용자 목표일만 | 프로필이 바뀌어도 날짜가 어긋나지 않음. 공식 기한과 사용자 목표일을 구조적으로 구분 | 승인 |

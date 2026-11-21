@@ -72,6 +72,18 @@ docs/
 
 ## 3. 핵심 엔티티
 
+> **현재 구현 (Week 2)**: 실제 스키마는 `supabase/migrations/20261121000100_core_schema.sql`이 기준입니다. 아래 원안 대비 변경점:
+> - 추가: `template_prerequisites`, `template_sources`(supports·excerpt), `user_task_dependencies`, `chat_threads`, `chat_messages`, `recommendations`, `evaluation_runs`
+> - `profiles`: `arrival_date`, `move_in_date`, `state_code`, `city` (필수: `move_purpose`, `city`)
+> - `user_tasks`: `applicability`, `is_excluded`, `blocked_reason`, `completed_at`. 공식 기한은 저장하지 않고 계산 (D-15)
+> - `source_documents`: `source_key`, `checked_by`, `content_hash`
+> - `document_chunks.embedding`: 임베딩 모델 확정(8주차) 후 추가. 현재는 전문검색(`fts`)만
+> - DB 수준 규칙: 선행 관계 순환 금지, 출처 없는 needs_review/verified 금지, 사람 검토 없는 verified 금지, 출처 없는 기한 규칙 금지
+>
+> **RLS 요약**: 사용자 데이터(프로필·업무·대화·추천)는 본인만 읽기/쓰기, `ai_runs`는 본인 읽기만, 템플릿·출처는 로그인 사용자 읽기 전용, 평가 데이터는 누구나 읽기. 쓰기는 서버(service_role)만. 테스트: `tests/db/rls.test.ts`.
+
+### 원안
+
 ### profiles
 - id (uuid)
 - user_id (uuid)

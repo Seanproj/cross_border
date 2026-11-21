@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens (docs/DESIGN_GUIDE.md, docs/WIREFRAMES.md)
+ * 신뢰감·차분함: 오프화이트 배경, 네이비 텍스트, 블루 포인트.
+ * 상태 색상은 항상 텍스트/아이콘과 함께 쓴다 (색만으로 상태 표현 금지).
+ */
+:root {
+  --background: #f7f8fa;
+  --surface: #ffffff;
+  --surface-muted: #f0f3f7;
+  --border: #e1e6ee;
+  --foreground: #14213d;
+  --muted-foreground: #5a6478;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --success: #15803d;
+  --success-surface: #e8f6ee;
+  --warning: #b45309;
+  --warning-surface: #fdf3e2;
+  --danger: #b91c1c;
+  --danger-surface: #fdecec;
+  --info-surface: #eaf1fe;
+  --radius-card: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0e1420;
+    --surface: #161e2e;
+    --surface-muted: #1d2740;
+    --border: #2a3550;
+    --foreground: #e6ebf5;
+    --muted-foreground: #a3aec4;
+    --primary: #6b9bff;
+    --primary-foreground: #0e1420;
+    --success: #4ade80;
+    --success-surface: #14301f;
+    --warning: #fbbf24;
+    --warning-surface: #3a2c10;
+    --danger: #f87171;
+    --danger-surface: #3a1616;
+    --info-surface: #1b2a4a;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-success: var(--success);
+  --color-success-surface: var(--success-surface);
+  --color-warning: var(--warning);
+  --color-warning-surface: var(--warning-surface);
+  --color-danger: var(--danger);
+  --color-danger-surface: var(--danger-surface);
+  --color-info-surface: var(--info-surface);
+  --radius-card: var(--radius-card);
+  --font-sans: var(--font-geist-sans), "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}

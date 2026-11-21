@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      db:
+        # Same image as `pnpm db:up` (Supabase Postgres: roles, auth schema, pgvector)
+        image: supabase/postgres:17.12.0.000
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 54329:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -h 127.0.0.1"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54329/postgres
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Lint
+        run: pnpm lint
+      - name: Curated data check
+        run: pnpm data:check
+      - name: Unit tests
+        run: pnpm test
+      - name: Wait for database
+        run: node scripts/wait-for-db.mjs
+      - name: Database tests (migrations, RLS, constraints, seed)
+        run: pnpm test:db
+      - name: Build
+        run: pnpm build
