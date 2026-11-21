@@ -44,16 +44,16 @@
   expected:
     status: complete
     fields:
-      move_purpose: employment
+      move_purpose: family_reunion
       household_type: family_with_children
-      housing_status: permanent
       city: frankfurt
       state_code: DE-HE
       move_in_date: "2027-02-15"
     missing_fields_include: []
   forbidden:
     - "move_in_date 를 target_move_date 나 arrival_date 로 혼동"
-  notes: "입주일과 도착일은 다른 필드. 주재원(파견) 정보는 프로필 필드가 없으므로 저장하지 않는다."
+    - "말하는 사람(동반 배우자)의 이주 목적을 남편의 목적(employment)으로 기록"
+  notes: "말하는 사람은 남편을 따라가는 배우자 → family_reunion. 입주일과 도착일은 다른 필드. housing_status 는 입력에서 확정할 수 없어 채점하지 않음. 주재원(파견) 정보는 프로필 필드가 없으므로 저장하지 않는다. (v1 정답지 오류를 2026-11-21 검토에서 수정)"
 
 - case_key: profile.pii.passport_number
   feature: profile_extraction

@@ -129,6 +129,15 @@ describe("template integrity in the database (AC-02-5, AC-03-5)", () => {
     await expectPgError(admin.query("commit"), /not backed by a deadline source/);
   });
 
+  it("rejects deleting the last existence source of a needs_review template", async () => {
+    await admin.query("begin");
+    await admin.query(
+      `delete from public.template_sources ts using public.task_templates t
+        where ts.template_id = t.id and t.template_key = 'de.telecom.prepaid_sim'`,
+    );
+    await expectPgError(admin.query("commit"), /requires an existence source/);
+  });
+
   it("rejects source citations with unknown support kinds", async () => {
     const tid = await templateId("de.housing.rundfunkbeitrag");
     const sid = (await admin.query("select id from public.source_documents limit 1")).rows[0].id;
