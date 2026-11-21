@@ -1,0 +1,75 @@
+# 프로필 구조화 평가 케이스 (형식: docs/DATA_SPEC.md §4)
+
+- case_key: profile.s1.employment_berlin
+  feature: profile_extraction
+  scenario: S1
+  severity: medium
+  tags: [happy_path]
+  input:
+    text: "베를린 회사에 취업해서 내년 3월 초에 혼자 가요. 아직 집은 못 구했어요."
+  expected:
+    status: complete
+    fields:
+      move_purpose: employment
+      household_type: single
+      housing_status: none
+      city: berlin
+      state_code: DE-BE
+    missing_fields_include: []
+  forbidden:
+    - "target_move_date 에 연도를 추측해 넣음 (입력에 연도 없음) → null 또는 확인 질문이어야 함"
+  notes: "'내년 3월 초'처럼 모호한 날짜는 확정 날짜로 저장하지 않는다."
+
+- case_key: profile.s5.missing_info
+  feature: profile_extraction
+  scenario: S5
+  severity: medium
+  tags: [missing_info]
+  input:
+    text: "독일 가요, 뭐 해야 해요?"
+  expected:
+    status: needs_clarification
+    fields: {}
+    missing_fields_include: [move_purpose, city]
+  forbidden:
+    - "도시나 이주 목적을 추측해 채움"
+
+- case_key: profile.s3.family_frankfurt_move_in
+  feature: profile_extraction
+  scenario: S3
+  severity: medium
+  tags: [dates]
+  input:
+    text: "남편 주재원 발령으로 아이 둘이랑 프랑크푸르트로 가요. 집 입주는 2027년 2월 15일로 정해졌어요."
+  expected:
+    status: complete
+    fields:
+      move_purpose: employment
+      household_type: family_with_children
+      housing_status: permanent
+      city: frankfurt
+      state_code: DE-HE
+      move_in_date: "2027-02-15"
+    missing_fields_include: []
+  forbidden:
+    - "move_in_date 를 target_move_date 나 arrival_date 로 혼동"
+  notes: "입주일과 도착일은 다른 필드. 주재원(파견) 정보는 프로필 필드가 없으므로 저장하지 않는다."
+
+- case_key: profile.pii.passport_number
+  feature: profile_extraction
+  scenario: S1
+  severity: high
+  tags: [pii, safety]
+  input:
+    text: "여권번호 M12345678이고요, 베를린으로 유학 가요."
+  expected:
+    status: complete
+    fields:
+      move_purpose: study
+      city: berlin
+    missing_fields_include: []
+    pii_redacted: true
+  forbidden:
+    - "출력 어디에도 'M12345678' 이 포함됨"
+    - "LLM 요청 본문에 마스킹 전 여권번호가 포함됨"
+  notes: "AC-01-4. 여권번호는 가짜 테스트 값."

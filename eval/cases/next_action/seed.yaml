@@ -1,0 +1,39 @@
+# Next Best Action 평가 케이스 (형식: docs/DATA_SPEC.md §4)
+
+- case_key: nba.s1.blocked_by_housing
+  feature: next_action
+  scenario: S1
+  severity: high
+  tags: [prerequisite]
+  input:
+    profile: { move_purpose: employment, city: berlin, housing_status: none }
+    tasks:
+      - { template_key: de.housing.secure_residence, status: not_started }
+      - { template_key: de.housing.landlord_confirmation, status: not_started }
+      - { template_key: de.registration.address.berlin, status: not_started }
+      - { template_key: de.license.conversion.berlin, status: not_started }
+  expected:
+    must_recommend_any: [de.housing.secure_residence]
+    must_not_recommend: [de.registration.address.berlin, de.license.conversion.berlin, de.housing.landlord_confirmation]
+    must_not_use_terms: []
+  forbidden:
+    - "hard 선행 업무가 미완료인 업무를 추천"
+
+- case_key: nba.s2.unconfirmed_deadline_language
+  feature: next_action
+  scenario: S2
+  severity: high
+  tags: [deadline, wording]
+  input:
+    profile: { move_purpose: employment, city: frankfurt, housing_status: permanent, move_in_date: null }
+    tasks:
+      - { template_key: de.housing.secure_residence, status: completed }
+      - { template_key: de.housing.landlord_confirmation, status: completed }
+      - { template_key: de.registration.address.frankfurt, status: not_started }
+  expected:
+    must_recommend_any: [de.registration.address.frankfurt]
+    must_not_recommend: []
+    must_not_use_terms: ["D-", "마감 임박", "오늘까지"]
+  forbidden:
+    - "입주일(move_in_date)이 없는데 구체적인 마감 날짜를 계산해 제시"
+  notes: "기한 규칙(입주 후 2주)은 설명할 수 있지만, 기준일이 없으므로 날짜는 '입주일 입력 시 계산'으로 안내해야 함 (AC-03-2, AC-05-3)."

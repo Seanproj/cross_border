@@ -1,0 +1,193 @@
+# 체류/행정 절차 (형식: docs/DATA_SPEC.md §2)
+
+- template_key: de.residence.entry_visa_free_kr
+  version: 1
+  category: residence_admin
+  title: "입국 방식 확인: 한국 국적자는 비자 없이 입국 후 독일에서 체류허가 신청 가능"
+  description: "한국(Republik Korea)은 독일에 비자 없이 입국한 뒤 독일 안에서 체류 허가를 신청할 수 있는 국가 목록에 포함되어 있습니다. 같은 목록에서 취업 목적 체류허가가 제외된다는 각주는 한국에는 붙어 있지 않습니다. 개인 상황에 따른 판단은 관할 외국인청에 확인해야 합니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.lea.laengerer_aufenthalt
+      supports: [existence, procedure]
+      excerpt: "Für bestimmte Staaten gelten besondere Vergünstigungen. Sie können auch ohne Visum jeden Aufenthaltstitel im Bundesgebiet beantragen."
+    - source_key: berlin.lea.laengerer_aufenthalt
+      supports: [existence]
+      excerpt: "Republik Korea (Südkorea)"
+    - source_key: berlin.lea.laengerer_aufenthalt
+      supports: [procedure]
+      excerpt: "1 Ausgenommen sind Aufenthaltstitel zur Erwerbstätigkeit. Angehörige dieser Staaten müssen dann mit einem nationalen Visum einreisen."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "각주 1은 Andorra, Brasilien 등에만 표시되고 Korea에는 없음(자동 수집 텍스트 기준). 원문 화면에서 각주 표시를 사람이 확인할 것. 법적 근거(AufenthV §41)와 신청 기한은 법령 사이트 접속 불가로 미확인. 평가 케이스 rag.conflict.korea_visa_free 와 연결."
+
+- template_key: de.residence.permit.berlin
+  version: 1
+  category: residence_admin
+  title: "베를린 외국인청(LEA)에 취업 체류허가 온라인 신청"
+  description: "베를린 외국인청(Landesamt für Einwanderung)은 취업 목적 체류허가를 온라인 신청으로만 받습니다. 외국인청이 연방고용청(Bundesagentur für Arbeit)과 내부 동의 절차를 진행하며, 시간이 걸릴 수 있습니다."
+  region_scope: city:berlin
+  applicability:
+    all:
+      - { field: move_purpose, op: eq, value: employment }
+  prerequisites:
+    - { template_key: de.registration.address.berlin, kind: soft }
+    - { template_key: de.residence.employment_declaration.berlin, kind: hard }
+  required_documents:
+    - { name: "고용주가 작성한 '고용 관계 확인서(Erklärung zum Beschäftigungsverhältnis)'", source_key: berlin.lea.beschaeftigung }
+    - { name: "근로계약서 또는 구체적인 채용 확약서", source_key: berlin.lea.beschaeftigung }
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.lea.beschaeftigung
+      supports: [existence, procedure]
+      excerpt: "Bitte nutzen Sie für Aufenthaltstitel zur Beschäftigung nur noch unsere Online-Anträge"
+    - source_key: berlin.lea.beschaeftigung
+      supports: [procedure]
+      excerpt: "Die Ausländerbehörde klärt die Möglichkeit einer Beschäftigung in einem internen Zustimmungsverfahren mit den Operativen Services der Bundesagentur für Arbeit"
+    - source_key: berlin.lea.beschaeftigung
+      supports: [documents]
+      excerpt: "und eine aussagekräftige Einstellungszusage oder besser einen Arbeitsvertrag."
+    - source_key: berlin.lea.beschaeftigung
+      supports: [procedure]
+      excerpt: "Bitte berücksichtigen Sie, dass für die Beteiligung der Bundesagentur für Arbeit eine gewisse Zeitdauer erforderlich ist."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "주소 등록이 신청의 선행 조건인지(hard) 출처로 확인되지 않아 soft로 둠. 건강보험 증명 등 추가 서류는 직종별 하위 페이지 확인 필요."
+
+- template_key: de.residence.employment_declaration.berlin
+  version: 1
+  category: residence_admin
+  title: "고용주에게 '고용 관계 확인서(Stellenbeschreibung)' 작성 요청"
+  description: "베를린 외국인청에 취업 허가를 신청할 때 고용주가 작성하는 양식이 필요합니다."
+  region_scope: city:berlin
+  applicability:
+    all:
+      - { field: move_purpose, op: eq, value: employment }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.lea.beschaeftigung
+      supports: [existence, documents]
+      excerpt: "das Formular “Erklärung zum Beschäftigungsverhältnis – Stellenbeschreibung” (vom Arbeitgeber auszufüllen)"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: null
+
+- template_key: de.residence.permit.frankfurt
+  version: 1
+  category: residence_admin
+  title: "프랑크푸르트에서 전자 체류허가증(eAT) 신청"
+  description: "프랑크푸르트 지역의 전자 체류허가증(eAT) 신청 업무가 연방 행정 포털에 등록되어 있습니다. 신청 방법과 서류는 프랑크푸르트 외국인청 안내를 직접 확인해야 합니다."
+  region_scope: city:frankfurt
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.registration.address.frankfurt, kind: soft }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: bund.portal.eat_frankfurt
+      supports: [existence]
+      excerpt: "Elektronischen Aufenthaltstitel (eAT) beantragen"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "frankfurt.de 접속 차단으로 절차·서류 미확인. 이 출처는 업무 존재만 뒷받침함."
+
+- template_key: de.residence.qualification_recognition
+  version: 1
+  category: residence_admin
+  title: "외국 직업 자격 인정(Anerkennung) 필요 여부 확인"
+  description: "독일 정부의 '직업 자격 인정 포털'에서 내 직업이 독일에서 자격 인정을 받아야 하는지 확인할 수 있습니다. 필요 여부는 직업과 개인 상황에 따라 다르므로 이 업무는 '확인 필요'로 제시됩니다."
+  region_scope: federal
+  applicability:
+    review_required: true
+    all:
+      - { field: move_purpose, op: in, value: [employment, job_seeking] }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: bund.anerkennung.portal
+      supports: [existence]
+      excerpt: "zur Anerkennung ausländischer Berufsqualifikationen"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "출처는 포털 존재만 뒷받침. 자격 판정은 MVP 범위 밖이므로 '확인 방법 안내'로만 표현할 것."
+
+- template_key: de.family.kita_voucher.berlin
+  version: 1
+  category: residence_admin
+  title: "베를린 어린이집 이용권(Kita-Gutschein) 신청"
+  description: "베를린에 거주지가 있고 아이가 생후 8주 이상이면 신청할 수 있습니다. 첫 신청은 어린이집 이용 시작 9개월 전부터 2개월 전까지 하도록 안내되어 있습니다. 수수료는 없습니다."
+  region_scope: city:berlin
+  applicability:
+    all:
+      - { field: household_type, op: eq, value: family_with_children }
+  prerequisites:
+    - { template_key: de.registration.address.berlin, kind: hard }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.service.kita_gutschein
+      supports: [existence, procedure]
+      excerpt: "Ihr Kind ist mindestens 8 Wochen alt."
+    - source_key: berlin.service.kita_gutschein
+      supports: [procedure]
+      excerpt: "Bitte stellen Sie den Erstantrag frühestens 9 Monate und spätestens 2 Monate, bevor Ihr Kind in die Kita oder Kindertagespflegestelle gehen soll."
+    - source_key: berlin.service.kita_gutschein
+      supports: [procedure]
+      excerpt: "Wohnsitz in Berlin"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "기한 기준일(어린이집 시작일)이 프로필에 없어 deadline_rule 은 비워둠. '거주지 = 주소 등록 완료'로 해석해 hard 선행으로 둔 것이 맞는지 검토."
+
+- template_key: de.family.kindergeld
+  version: 1
+  category: residence_admin
+  title: "자녀수당(Kindergeld) 신청 가능 여부 확인"
+  description: "자녀가 있는 가구는 가족수당 관청(Familienkasse)에 자녀수당 신청 가능 여부를 확인합니다. 외국 국적자의 수급 조건은 체류 자격에 따라 다를 수 있습니다."
+  region_scope: federal
+  applicability:
+    review_required: true
+    all:
+      - { field: household_type, op: eq, value: family_with_children }
+  prerequisites:
+    - { template_key: de.tax.id_receive, kind: soft }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "arbeitsagentur.de 가 자동 접속을 차단(봇 검증 페이지). 공식 출처 수동 확인 필요."
+
+- template_key: kr.documents.civil_status
+  version: 1
+  category: residence_admin
+  title: "출국 전 혼인·출생 증명 서류 준비 여부 확인"
+  description: "베를린에서 처음 거주지를 등록할 때 혼인증명서·출생증명서 같은 가족관계 서류를 요구할 수 있다고 안내되어 있습니다. 배우자나 자녀와 함께 이주한다면 출국 전에 준비 여부를 확인하세요."
+  region_scope: city:berlin
+  applicability:
+    any:
+      - { field: household_type, op: eq, value: couple }
+      - { field: household_type, op: eq, value: family_with_children }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.service.anmeldung
+      supports: [existence, documents]
+      excerpt: "Für Ihre erste Anmeldung in Berlin ist es ggf. zusätzlich erforderlich, Personenstandsurkunden (wie z.B.: Heirats-, Geburtsurkunde) vorzulegen."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "번역·아포스티유 요건은 출처에 없음. 한국 측(외교부 아포스티유) 출처 추가 필요."

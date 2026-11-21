@@ -1,0 +1,127 @@
+# 주거 및 주소 등록 (형식: docs/DATA_SPEC.md §2)
+
+- template_key: de.housing.secure_residence
+  version: 1
+  category: housing_registration
+  title: "거주할 집 확보"
+  description: "주소 등록과 여러 후속 업무의 출발점입니다. 임시 숙소인지 장기 거주지인지에 따라 이후 절차가 달라질 수 있습니다."
+  region_scope: federal
+  applicability:
+    all:
+      - { field: housing_status, op: neq, value: permanent }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "공식 출처 없음. 업무 존재 자체는 상식 수준이나 출처 연결 필요 시 공공기관 안내 페이지를 찾아야 함."
+
+- template_key: de.housing.landlord_confirmation
+  version: 1
+  category: housing_registration
+  title: "집주인에게 입주 확인서(Wohnungsgeberbestätigung) 받기"
+  description: "주소 등록 시 제출하는 집주인(Wohnungsgeber)의 입주 확인서입니다. 집주인은 입주 후 2주 이내에 서면으로 확인해 줄 의무가 있으며, 임대차 계약서로 대신할 수 없습니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.housing.secure_residence, kind: hard }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.service.anmeldung
+      supports: [existence, procedure]
+      excerpt: "Wohnungsgeber/innen sind verpflichtet, ihren Mietern/Mieterinnen den Einzug innerhalb von zwei Wochen nach dem Einzug schriftlich mit Unterschrift zu bestätigen."
+    - source_key: berlin.service.anmeldung
+      supports: [procedure]
+      excerpt: "Die Vorlage eines Mietvertrages ersetzt nicht die Wohnungsgeberbestätigung."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "출처가 베를린 페이지임. 연방 공통 의무인지 연방 법령(BMG §19)으로 확인 필요 — gesetze-im-internet.de 자동 접속 불가."
+
+- template_key: de.registration.address.berlin
+  version: 1
+  category: housing_registration
+  title: "베를린 거주지 등록 (Anmeldung)"
+  description: "베를린에서 단독 또는 주 거주지로 입주하면 입주 후 14일 이내에 등록해야 합니다. 등록 후 거주지 등록 확인서(Meldebestätigung)를 받습니다. 온라인 등록은 독일 국적자 또는 EU 시민만 가능하므로, 한국 국적자는 시민청(Bürgeramt) 예약 후 방문합니다. 수수료는 없습니다."
+  region_scope: city:berlin
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.housing.landlord_confirmation, kind: hard }
+  required_documents:
+    - { name: "여권 (해당 시 전자 체류허가증 eAT 함께)", source_key: berlin.service.anmeldung }
+    - { name: "집주인 입주 확인서 (Wohnungsgeberbestätigung)", source_key: berlin.service.anmeldung }
+    - { name: "작성한 등록 신청서 (Anmelde-Formular)", source_key: berlin.service.anmeldung }
+    - { name: "가족관계 증명 서류(혼인·출생증명서 등) — 첫 등록 시 요구될 수 있음", source_key: berlin.service.anmeldung }
+  deadline_rule:
+    anchor: move_in_date
+    offset_days: 14
+    source_key: berlin.service.anmeldung
+  estimated_duration: null
+  sources:
+    - source_key: berlin.service.anmeldung
+      supports: [existence, deadline]
+      excerpt: "Frist: Anmeldung innerhalb von 14 Tagen nach Ihrem Einzug"
+    - source_key: berlin.service.anmeldung
+      supports: [procedure]
+      excerpt: "Für die Online-Anmeldung: Deutsche Staatsbürgerschaft oder Sie sind EU-Bürger/-in"
+    - source_key: berlin.service.anmeldung
+      supports: [documents]
+      excerpt: "Reisepass ggf. zusammen mit dem eAT, für ausländische Staatsangehörige."
+    - source_key: berlin.service.anmeldung
+      supports: [documents]
+      excerpt: "Für Ihre erste Anmeldung in Berlin ist es ggf. zusätzlich erforderlich, Personenstandsurkunden (wie z.B.: Heirats-, Geburtsurkunde) vorzulegen."
+    - source_key: berlin.service.anmeldung
+      supports: [fee]
+      excerpt: "Gebühren\n keine"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "한국 혼인·출생 서류의 번역/아포스티유 필요 여부는 출처에 없음 → 별도 확인."
+
+- template_key: de.registration.address.frankfurt
+  version: 1
+  category: housing_registration
+  title: "프랑크푸르트 거주지 등록 (Anmeldung)"
+  description: "새 집에 입주하면 입주 후 2주 이내에 새 거주지 관할 등록 관청(Meldebehörde)에 직접 방문해 등록해야 합니다(연방 공통). 프랑크푸르트 시청의 세부 절차·서류는 아직 확인되지 않았습니다."
+  region_scope: city:frankfurt
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.housing.landlord_confirmation, kind: hard }
+  required_documents: []
+  deadline_rule:
+    anchor: move_in_date
+    offset_days: 14
+    source_key: bund.portal.wohnsitz_anmelden
+  estimated_duration: null
+  sources:
+    - source_key: bund.portal.wohnsitz_anmelden
+      supports: [existence, deadline, procedure]
+      excerpt: "Wenn Sie eine neue Wohnung beziehen, müssen Sie sich innerhalb von zwei Wochen nach Einzug persönlich bei der für Sie zuständigen Meldebehörde am neuen Wohnort anmelden."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "frankfurt.de 가 자동 접속을 차단(403). 시청 페이지에서 서류·예약 방식 수동 확인 필요. '2주'를 offset_days 14로 변환한 것이 맞는지 검토."
+
+- template_key: de.housing.rundfunkbeitrag
+  version: 1
+  category: housing_registration
+  title: "방송수신료(Rundfunkbeitrag) 등록"
+  description: "독일에서는 거주하는 사람 수와 관계없이 주거지(Wohnung)마다 매월 방송수신료가 부과됩니다. 처음이라면 Beitragsservice 웹사이트에서 등록합니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.housing.secure_residence, kind: soft }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: rundfunkbeitrag.start
+      supports: [existence, fee]
+      excerpt: "Grundsätzlich gilt: Für jede Wohnung wird monatlich ein Rundfunkbeitrag von 18,36 € erhoben, unabhängig davon, wie viele Personen in dieser Wohnung leben."
+    - source_key: rundfunkbeitrag.start
+      supports: [procedure]
+      excerpt: "Erstmalig anmelden"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "같은 집에 이미 납부자가 있으면 추가 등록이 불필요한지, 등록 기한이 있는지 출처에서 확인 필요."

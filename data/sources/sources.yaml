@@ -1,0 +1,185 @@
+# 승인 출처 목록 (형식: docs/DATA_SPEC.md §1)
+# checked_by: ai_fetch = 자동 수집 후 원문 대조만 완료. 사람 검토 후 human 으로 변경.
+# content_hash = 수집 시점 페이지 텍스트의 sha256 (변경 감지용). scripts 로 재계산.
+
+- source_key: bund.portal.wohnsitz_anmelden
+  title: "Wohnsitz anmelden"
+  authority: "Bundesportal (verwaltung.bund.de)"
+  url: "https://verwaltung.bund.de/leistungsverzeichnis/de/leistung/99115005104000"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:69333475fd04af768698c3f34c09ad055433928fb13c378a41243ede96a56417"
+
+- source_key: berlin.service.anmeldung
+  title: "Wohnsitz - Alleinige Wohnung oder Hauptwohnung anmelden"
+  authority: "Land Berlin – Service-Portal Berlin"
+  url: "https://service.berlin.de/dienstleistung/120686/"
+  language: de
+  country_code: DE
+  region_scope: city:berlin
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:f5c4b34d615ade8b180ca91757a6f891fcc24b40d0b055ec497043d6318dad71"
+
+- source_key: berlin.lea.laengerer_aufenthalt
+  title: "Einreise für einen längeren Aufenthalt"
+  authority: "Landesamt für Einwanderung Berlin"
+  url: "https://www.berlin.de/einwanderung/einreise/visumverfahren/laengerer-aufenthalt/"
+  language: de
+  country_code: DE
+  region_scope: city:berlin
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:9ba98fc76e09c58560017578abc9a237adee6457e88b45d8017a89fa4291a9ac"
+
+- source_key: berlin.lea.beschaeftigung
+  title: "Beschäftigung - ausländische Arbeitnehmer"
+  authority: "Landesamt für Einwanderung Berlin"
+  url: "https://www.berlin.de/einwanderung/aufenthalt/erwerbstaetigkeit/artikel.874035.php"
+  language: de
+  country_code: DE
+  region_scope: city:berlin
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:f0f0a629d990145e01ac42f7c69ade10a9df7ea68356f5bff8e226a7cfcb9c94"
+
+- source_key: bund.portal.eat_frankfurt
+  title: "Elektronischen Aufenthaltstitel (eAT) beantragen"
+  authority: "Bundesportal (verwaltung.bund.de) – Region Frankfurt am Main"
+  url: "https://verwaltung.bund.de/leistungsverzeichnis/DE/leistung/99010006012000/herausgeber/HE-10010093/region/064120000000"
+  language: de
+  country_code: DE
+  region_scope: city:frankfurt
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:d73ac684b2de2aaac0945f196be9c1ccec63a62cba1615b04980ada558cc60f3"
+
+- source_key: bund.anerkennung.portal
+  title: "Anerkennungsportal"
+  authority: "Anerkennung in Deutschland (Portal der Bundesregierung)"
+  url: "https://www.anerkennung-in-deutschland.de/html/de/index.php"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:d30b79fa84f7b599ff98dcdc81ff609e491b4bcc797aaa4c6b0d2cdf92d31559"
+
+- source_key: berlin.service.kita_gutschein
+  title: "Kita-Gutschein für eine Kindertageseinrichtung oder Kindertagespflege beantragen oder erweitern"
+  authority: "Land Berlin – Service-Portal Berlin"
+  url: "https://service.berlin.de/dienstleistung/324873/"
+  language: de
+  country_code: DE
+  region_scope: city:berlin
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:eeb6458ec97a0e239c7d3e7cd972ff97a52021f3e2352253f05265900e5841ff"
+
+- source_key: bzst.idnr
+  title: "Die Identifikationsnummer"
+  authority: "Bundeszentralamt für Steuern (BZSt)"
+  url: "https://www.bzst.de/DE/Privatpersonen/SteuerlicheIdentifikationsnummer/steuerlicheidentifikationsnummer_node.html"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:84df176ad9a349b1222551f7ae9c073a6671de4889e0280a695b11edfa8b2b9f"
+
+- source_key: rundfunkbeitrag.start
+  title: "Startseite - Der Rundfunkbeitrag"
+  authority: "ARD ZDF Deutschlandradio Beitragsservice"
+  url: "https://www.rundfunkbeitrag.de/"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:62087ef632ac924c2dcb0b128c32843654470ee076f67b1c487e94f5148822ec"
+
+- source_key: bmg.gkv
+  title: "Gesetzliche Krankenversicherung (GKV)"
+  authority: "Bundesministerium für Gesundheit"
+  url: "https://www.bundesgesundheitsministerium.de/gkv"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:10c5d92e45e7830862ee6cac1854a066cdaaa91314aa5a97b80b58e490424373"
+
+- source_key: drv.korea
+  title: "Ihre Verbindungsstelle für Korea"
+  authority: "Deutsche Rentenversicherung"
+  url: "https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Ausland/Ansprechpartner-und-Verbindungsstellen/Korea/Verbindungsstelle-Korea.html"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:9a7ff3b0c1b715aa8b036f9910442ecf5677d94e14a5137a346837a3021c51ad"
+
+- source_key: bnetza.prepaid_ident
+  title: "Identverfahren für Prepaid-Mobilfunkdienste"
+  authority: "Bundesnetzagentur"
+  url: "https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/OeffentlicheSicherheit/IdentverfahrenPrepaid/artikel.html"
+  language: de
+  country_code: DE
+  region_scope: federal
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:cdb5bb3fc8b4a2f7d4b39b4c8cb3abfb3597bc93867c008b357fdddce33fb71e"
+
+- source_key: berlin.service.fahrerlaubnis_drittstaat
+  title: "Fahrerlaubnis - Umschreibung einer ausländischen Fahrerlaubnis aus einem Nicht-EU/EWR-Land (Drittstaat/Anlage 11)"
+  authority: "Land Berlin – Service-Portal Berlin"
+  url: "https://service.berlin.de/dienstleistung/327537/"
+  language: de
+  country_code: DE
+  region_scope: city:berlin
+  trust_level: official
+  published_or_updated_at: null
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:b5bcc7c7523185a359d315a2a4a61cae31757fea9f4f392661183c6859547930"
+
+- source_key: bund.portal.fahrerlaubnis_frankfurt
+  title: "Fahrerlaubnis ausländisch (nicht EU/EWR): umschreiben"
+  authority: "Bundesportal (verwaltung.bund.de) – Herausgeber Hessen, Region Frankfurt am Main"
+  url: "https://verwaltung.bund.de/leistungsverzeichnis/DE/leistung/99108047050002/herausgeber/HE-8963049/region/064120000000"
+  language: de
+  country_code: DE
+  region_scope: city:frankfurt
+  trust_level: official
+  published_or_updated_at: 2017-09-12
+  checked_at: 2026-11-21
+  checked_by: ai_fetch
+  content_hash: "sha256:2ce108c340032fb1dd5058921a0b56afa17f8ccead090ce61b396aff0fe911ca"

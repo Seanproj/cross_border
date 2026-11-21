@@ -1,0 +1,55 @@
+# 통신 (형식: docs/DATA_SPEC.md §2)
+
+- template_key: de.telecom.prepaid_sim
+  version: 1
+  category: telecom
+  title: "선불 유심(Prepaid SIM) 개통 — 신원 확인 필요"
+  description: "독일에서 선불 휴대전화 서비스를 쓰려면 통신사가 신원 정보를 확인해야 합니다(통신법 TKG §172). 허용되는 확인 방법은 연방네트워크청(Bundesnetzagentur)이 정합니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites: []
+  required_documents:
+    - { name: "신분증(여권)", source_key: null }
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: bnetza.prepaid_ident
+      supports: [existence, procedure]
+      excerpt: "Mittels einer Verfügung wird geregelt, welche Verfahren zulässig sind, um die Daten eines künftigen Anschlussinhabers einer Prepaid-SIM-Karte auf Richtigkeit zu überprüfen."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "여권으로 확인 가능한지는 출처 문장에 직접 나오지 않음 → required_documents 출처 없음(null). 2026년 규정 개정 진행 중이라고 페이지에 언급됨."
+
+- template_key: de.telecom.mobile_contract
+  version: 1
+  category: telecom
+  title: "휴대전화 정기 요금제(후불) 계약 검토"
+  description: "후불 요금제는 은행 계좌나 주소 정보가 필요한 경우가 많습니다. 통신사별로 조건이 다릅니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.finance.bank_account, kind: soft }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "공식 출처 없음(민간 계약)."
+
+- template_key: de.telecom.home_internet
+  version: 1
+  category: telecom
+  title: "집 인터넷 계약"
+  description: "거주지 주소가 정해진 뒤 계약할 수 있습니다. 설치까지 걸리는 시간은 업체와 지역에 따라 다릅니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.housing.secure_residence, kind: hard }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "공식 출처 없음(민간 계약)."

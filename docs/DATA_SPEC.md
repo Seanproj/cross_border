@@ -11,16 +11,20 @@
   url: "https://service.berlin.de/..."
   language: de                                # de | en | ko
   country_code: DE
-  region_scope: city:berlin                   # federal | state:DE-BE | state:DE-HE | city:berlin | city:frankfurt
+  region_scope: city:berlin                   # federal | state:DE-BE | state:DE-HE | city:berlin | city:frankfurt | national_kr
   trust_level: official                       # official | secondary
   published_or_updated_at: null               # 페이지에 표기된 경우만
-  checked_at: 2026-11-21                      # 사람이 직접 열어 확인한 날
+  checked_at: 2026-11-21                      # 페이지를 열어 내용을 확인한 날
+  checked_by: ai_fetch                        # ai_fetch (자동 수집+원문 대조) | human (사람 검토)
+  content_hash: "sha256:..."                 # 수집 시점 텍스트 해시. 재수집 시 달라지면 재검토
 ```
 
 규칙
 - `url`은 고유해야 한다.
 - `trust_level: official`은 정부·지자체·공공기관·법정 보험기관 도메인만.
 - `checked_at`은 실제로 페이지를 열어 내용을 확인한 날짜. 추정 금지.
+- 자동 수집(`ai_fetch`)한 출처를 쓰는 템플릿은 `verified`가 될 수 없다. 사람이 원문을 열어 인용문과 해석을 확인한 뒤 `checked_by: human`, 템플릿 `verified`로 바꾼다.
+- `region_scope: national_kr`은 한국 쪽 출국 전 업무(독일 지역과 무관).
 
 ## 2. 업무 템플릿 (`data/templates/<category>.yaml`)
 
@@ -47,9 +51,16 @@
     - source_key: berlin.service.anmeldung
       supports: [existence, deadline, documents, procedure]
       excerpt: "..."                            # 근거 문장 (원문, 짧게)
-  verification_status: verified                 # draft | verified | needs_review
+  verification_status: verified                 # draft | needs_review | verified
   last_verified_at: 2026-11-21
+  review_notes: null                           # 검토자가 확인해야 할 점, 미확인 사항
 ```
+
+| 상태 | 의미 | 체크리스트 노출 |
+|---|---|---|
+| `draft` | 공식 출처 없음 | 안 함 |
+| `needs_review` | 공식 출처 인용문 있음, 사람 검토 전 | 개발 중에만 ("검토 전" 배지) |
+| `verified` | 사람이 원문과 해석을 검토함 | 함 |
 
 > 위 예시의 기한 값은 **형식 설명용**입니다. 실제 값은 1주차 수집 시 출처로 확인한 값만 넣습니다.
 
@@ -60,11 +71,13 @@
 | `deadline_rule`이 있으면 그 `source_key`의 `supports`에 `deadline` 포함 | 시드 실패 |
 | `required_documents`의 `source_key`가 있으면 그 출처의 `supports`에 `documents` 포함 | 시드 실패 |
 | `prerequisites`의 `template_key`가 존재 | 시드 실패 |
+| `needs_review`/`verified`인데 출처가 0개 | 시드 실패 |
+| 모든 `excerpt`가 출처 스냅샷 원문에 그대로 존재 (`scripts/curation/verify_data.py`) | 수집 단계 검사 실패 |
 | 선행 관계 그래프에 순환 없음 | 시드 실패 |
 | 모든 `source_key`가 `data/sources`에 존재 | 시드 실패 |
 | `last_verified_at`이 90일 초과 | 경고 (화면에 "재확인 필요") |
 
-`move_in_date`는 v1.1 프로필 필드에 없으므로, 이 기준일을 쓰는 업무는 사용자 목표일 입력 또는 업무 상세에서 입주일을 받는 방식으로 2주차에 결정합니다 (열린 질문 Q-01).
+`move_in_date`는 프로필의 선택 필드입니다 (D-09). 값이 없으면 기한은 계산하지 않고 "입주일 입력 시 계산"으로 표시합니다.
 
 ## 3. 적용 규칙 DSL
 
@@ -77,6 +90,8 @@ applicability:
 
 - `field`: 프로필 필드명
 - `op`: `eq` | `neq` | `in` | `not_in` | `is_set`
+- `review_required: true`: 규칙을 만족해도 항상 `needs_review`(확인 필요)로 제시. 프로필에 없는 조건(예: 파견 여부, 직업별 자격)에 좌우되는 업무에 사용
+- `all: []`는 항상 참
 - 평가 결과는 3값: `true`(applies), `false`(제안 안 함), `unknown`(필요한 필드가 `null` → `needs_review`)
 - `region_scope`는 DSL과 별도로 먼저 필터링: `federal`은 모두, `city:*`/`state:*`는 프로필 지역이 일치할 때만
 
@@ -107,5 +122,5 @@ feature별 `expected` 키
 | next_action | `must_recommend_any`, `must_not_recommend`, `must_not_use_terms` |
 
 ## 5. 열린 질문
-- Q-01: 입주일(`move_in_date`)을 프로필에 추가할지, 업무별 기준일로 받을지
+- ~~Q-01: 입주일 처리~~ → D-09 (프로필 선택 필드)
 - Q-02: 보조 출처(`secondary`)를 어디까지 허용할지 (예: 공공기관이 아닌 보험사 안내 페이지)

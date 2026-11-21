@@ -1,0 +1,63 @@
+# 금융 및 세금 관련 일반 업무 (형식: docs/DATA_SPEC.md §2)
+
+- template_key: de.tax.id_receive
+  version: 1
+  category: finance_tax
+  title: "세금 식별번호(Steuer-IdNr) 우편 수령 확인"
+  description: "세금 식별번호(IdNr)는 11자리 번호로, 한 번 부여되면 이사나 결혼으로도 바뀌지 않습니다. 개인정보 보호를 위해 우편으로만 통지되며, 등록된 주소(Meldeanschrift)가 아닌 곳으로 받으려면 별도 조건이 필요합니다. 분실 시 연방중앙세무청(BZSt) 양식으로 재요청할 수 있습니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.registration.address.berlin, kind: soft }
+    - { template_key: de.registration.address.frankfurt, kind: soft }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: bzst.idnr
+      supports: [existence]
+      excerpt: "Die Identifikationsnummer (IdNr) ist eine elfstellige Nummer und enthält keine Informationen über die betreffende Person."
+    - source_key: bzst.idnr
+      supports: [procedure]
+      excerpt: "Bitte haben Sie Verständnis dafür, dass Ihnen die IdNr aus datenschutzrechtlichen Gründen nur per Brief mitgeteilt werden kann."
+    - source_key: bzst.idnr
+      supports: [procedure]
+      excerpt: "Der Versand der IdNr an eine Anschrift, die nicht Ihrer Meldeanschrift entspricht, kann nur mit"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "'주소 등록 후 자동 발송'이라는 흔한 설명은 이 출처에 없음 → 설명에 넣지 않음. 지역별 등록 업무 중 하나만 적용되므로 둘 다 soft 선행으로 둠."
+
+- template_key: de.finance.bank_account
+  version: 1
+  category: finance_tax
+  title: "독일 은행 계좌 개설"
+  description: "급여 수령과 각종 자동이체에 필요한 경우가 많습니다. 기본 계좌(Basiskonto) 권리 등 법적 근거는 확인 후 추가합니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "공식 출처 미확보(법령 사이트 접속 불가, BaFin 미허용). 은행마다 요구 서류가 달라 서류는 비워둠."
+
+- template_key: de.tax.give_id_to_employer
+  version: 1
+  category: finance_tax
+  title: "고용주에게 세금 식별번호 전달"
+  description: "급여 원천징수를 위해 고용주가 세금 식별번호를 요청하는 경우가 일반적입니다."
+  region_scope: federal
+  applicability:
+    all:
+      - { field: move_purpose, op: eq, value: employment }
+  prerequisites:
+    - { template_key: de.tax.id_receive, kind: hard }
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "공식 출처 미확보."

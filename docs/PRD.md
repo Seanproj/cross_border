@@ -1,5 +1,7 @@
 # Product Requirements Document (PRD) — v1.1
 
+> v1.1 보완 (2026-11-21): 프로필에 `move_in_date`(입주일) 추가 — 거주지 등록 등 '입주 후 N일' 기한의 기준일 (D-09).
+>
 > v1.0 → v1.1 변경 (2026-11-21): 파일럿 지역 확정(베를린·프랑크푸르트), 상태와 적용 여부 분리, 도착일·지역 코드 추가, 추천/대화 저장 요구사항 추가, 모든 수용 기준을 테스트 가능한 형식(AC-ID, Given/When/Then)으로 재작성. 근거: `docs/PHASE0_ANALYSIS.md` §1.3, `docs/DECISIONS.md`.
 
 ## 1. 제품 개요
@@ -54,7 +56,7 @@
 수용 기준(AC)은 각각 자동 테스트 또는 평가 케이스로 검증합니다. `[unit]` 단위 테스트, `[int]` DB 통합 테스트, `[e2e]` 브라우저 테스트, `[eval]` AI 평가 케이스.
 
 ### FR-01 프로필
-- 필드: `origin_country`(KR 고정), `destination_country`(DE 고정), `move_purpose`, `target_move_date`, `arrival_date`, `household_type`, `housing_status`, `state_code`, `city`
+- 필드: `origin_country`(KR 고정), `destination_country`(DE 고정), `move_purpose`, `target_move_date`, `arrival_date`, `move_in_date`(입주일, 선택), `household_type`, `housing_status`, `state_code`, `city`
 - `move_purpose`: `employment` / `job_seeking` / `study` / `family_reunion` / `self_employed` / `other`
 - `household_type`: `single` / `couple` / `family_with_children`
 - `housing_status`: `none` / `temporary` / `permanent`
@@ -90,7 +92,7 @@
 | AC | 기준 | 검증 |
 |---|---|---|
 | AC-03-1 | Given 확정 기한도 사용자 목표일도 없는 업무 When 타임라인에 표시하면 Then 날짜 없이 "날짜 미정" 레인에 놓인다 | [unit][e2e] |
-| AC-03-2 | Given 기한 규칙이 있으나 기준일(예: 도착일)이 없을 때 When 표시하면 Then "도착일 입력 시 계산" 안내가 붙는다 | [unit] |
+| AC-03-2 | Given 기한 규칙이 있으나 기준일(입주일·도착일)이 없을 때 When 표시하면 Then "입주일(또는 도착일) 입력 시 계산" 안내가 붙는다 | [unit] |
 | AC-03-3 | Given 확정 기한과 사용자 목표일 When 표시하면 Then 두 종류가 아이콘·텍스트로 구분된다 | [e2e] |
 | AC-03-4 | Given hard 선행 업무가 미완료 When 표시하면 Then 해당 업무에 "선행 업무 대기" 표시와 선행 업무 링크가 있다 | [unit][e2e] |
 | AC-03-5 | Given 템플릿 선행 관계 When 시드하면 Then 순환이 있으면 시드가 실패한다 | [unit] |

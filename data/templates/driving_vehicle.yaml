@@ -1,0 +1,157 @@
+# 운전면허 및 차량 (형식: docs/DATA_SPEC.md §2)
+
+- template_key: kr.license.international_permit
+  version: 1
+  category: driving_vehicle
+  title: "출국 전 국제운전면허증 발급 검토"
+  description: "도착 직후 운전이 필요하다면 출국 전에 발급을 검토합니다. 발급 조건·유효기간·수수료는 도로교통공단 안내를 확인하세요."
+  region_scope: national_kr
+  applicability: { all: [] }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "safedriving.or.kr 접속은 되나 국제운전면허 안내 페이지 URL을 찾지 못함(메뉴가 스크립트로 동작). 수동으로 URL 확인 필요. 독일에서 국제운전면허증의 효력은 별도 출처 필요."
+
+- template_key: de.license.foreign_validity
+  version: 1
+  category: driving_vehicle
+  title: "한국 면허로 운전 가능한 기간 확인 (독일 거주 시작 후 최대 6개월)"
+  description: "유효한 외국 면허 소지자는 독일에 거주지를 정한 뒤, 외국 면허가 유효한 동안 최대 6개월까지 독일에서 운전할 수 있습니다. 그 후에도 운전하려면 독일 면허로 전환(Umschreibung)해야 합니다."
+  region_scope: federal
+  applicability: { all: [] }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: bund.portal.fahrerlaubnis_frankfurt
+      supports: [existence, deadline]
+      excerpt: "Inhaber einer gültigen ausländischen Fahrerlaubnis dürfen nach Wohnsitznahme im Bundesgebiet im Umfang ihrer Berechtigung solange der ausländische Führerschein gültig ist aber längstens für weitere 6 Monate, im Inland Kraftfahrzeuge führen."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "출처 페이지 최종 갱신일이 2017-09-12로 오래됨. 법령(FeV §29) 원문 확인 필요(법령 사이트 자동 접속 불가). '6개월'을 날짜로 계산하려면 기준일=거주 시작일이 필요하므로 deadline_rule은 검토 후 추가."
+
+- template_key: de.license.conversion.berlin
+  version: 1
+  category: driving_vehicle
+  title: "베를린에서 한국 면허를 독일 면허로 전환"
+  description: "베를린에 주 거주지가 있어야 하며 본인이 직접 방문해야 합니다. 외국 면허는 신청 시점에 유효해야 하고 원본을 제출합니다. 국제운전면허증은 전환 대상이 아닙니다. 수수료는 시험 없이 전환 시 37.50유로, 시험이 있으면 45.10유로입니다."
+  region_scope: city:berlin
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.registration.address.berlin, kind: hard }
+  required_documents:
+    - { name: "신분증 또는 여권", source_key: berlin.service.fahrerlaubnis_drittstaat }
+    - { name: "체류허가증 (EU/EWR 시민이 아닌 경우)", source_key: berlin.service.fahrerlaubnis_drittstaat }
+    - { name: "최근 생체 여권사진 1장 (종이)", source_key: berlin.service.fahrerlaubnis_drittstaat }
+    - { name: "유효한 한국 운전면허증 원본", source_key: berlin.service.fahrerlaubnis_drittstaat }
+    - { name: "번역본 (면허증이 독일어·영어가 아닌 경우)", source_key: berlin.service.fahrerlaubnis_drittstaat }
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [existence, procedure]
+      excerpt: "Hauptwohnsitz in Berlin"
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [procedure]
+      excerpt: "Persönliche Vorsprache ist erforderlich"
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [documents]
+      excerpt: "Die ausländische Fahrerlaubnis muss zum Zeitpunkt der Antragstellung der deutschen Fahrerlaubnis noch gültig sein und im Original vorliegen."
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [documents]
+      excerpt: "Internationale Führerscheine werden nicht umgeschrieben, es bedarf immer eines gültigen nationalen Führerscheines."
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [documents]
+      excerpt: "Eine Übersetzung ist immer erforderlich, wenn der Führerschein nicht in deutscher oder englischer Sprache ausgestellt ist."
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [fee]
+      excerpt: "37,50 Euro: Umschreibung eines ausländischen Führerscheines ohne Prüfung"
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [fee]
+      excerpt: "45,10 Euro: Umschreibung eines ausländischen Führerscheines mit Prüfung"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "한국이 FeV Anlage 11(시험 면제 국가) 목록에 있는지 미확인 → 시력검사·응급처치 교육·시험 필요 여부는 de.license.test_requirements 에서 확인."
+
+- template_key: de.license.conversion.frankfurt
+  version: 1
+  category: driving_vehicle
+  title: "프랑크푸르트에서 한국 면허를 독일 면허로 전환"
+  description: "프랑크푸르트에 주 거주지가 있어야 하며 면허 관청(Führerscheinstelle)에 직접 신청합니다. 외국 면허가 유효한 동안 신청해야 합니다. 수수료는 도로교통 수수료 규정(GebOSt)에 따릅니다."
+  region_scope: city:frankfurt
+  applicability: { all: [] }
+  prerequisites:
+    - { template_key: de.registration.address.frankfurt, kind: hard }
+  required_documents:
+    - { name: "출생지·출생일 공식 증명 (신분증, 여권 등)", source_key: bund.portal.fahrerlaubnis_frankfurt }
+    - { name: "최근 생체 사진 (45x35mm)", source_key: bund.portal.fahrerlaubnis_frankfurt }
+    - { name: "외국 운전면허증", source_key: bund.portal.fahrerlaubnis_frankfurt }
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: bund.portal.fahrerlaubnis_frankfurt
+      supports: [existence, procedure]
+      excerpt: "Voraussetzung Hauptwohnsitz in Frankfurt am Main Der Antrag auf Umschreibung der ausländischen Fahrerlaubnis kann nur direkt bei der Führerscheinstelle gestellt werden."
+    - source_key: bund.portal.fahrerlaubnis_frankfurt
+      supports: [procedure]
+      excerpt: "Die Umschreibung muss beantragt werden, solange die ausländische Fahrerlaubnis noch gültig ist."
+    - source_key: bund.portal.fahrerlaubnis_frankfurt
+      supports: [documents]
+      excerpt: "Amtlicher Nachweis über Ort und Tag der Geburt (z. B. Personalausweis, Reisepass)"
+    - source_key: bund.portal.fahrerlaubnis_frankfurt
+      supports: [documents]
+      excerpt: "Ausländischer Führerschein"
+    - source_key: bund.portal.fahrerlaubnis_frankfurt
+      supports: [fee]
+      excerpt: "Die Höhe der Gebühr richtet sich nach der Gebührenordnung für Maßnahmen im Straßenverkehr."
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "출처 최종 갱신 2017-09-12. 사진 규격 문장의 정확한 원문은 '45x35mm' 포함 여부 확인."
+
+- template_key: de.license.test_requirements
+  version: 1
+  category: driving_vehicle
+  title: "면허 전환 시 시력검사·응급처치 교육·시험 필요 여부 확인"
+  description: "독일과 협정을 맺은 'Anlage 11' 국가의 면허는 시험이 면제되거나 일부만 필요하고, 그 밖의 국가(Drittstaat)는 시력검사와 응급처치 교육 증명이 필요합니다. 한국이 어느 쪽인지 확인한 뒤 준비합니다."
+  region_scope: city:berlin
+  applicability: { all: [] }
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources:
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [existence, procedure]
+      excerpt: "\"Länder der Anlage 11\": Länder, mit denen Deutschland ein Abkommen zur vereinfachten Umschreibung geschlossen hat"
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [documents]
+      excerpt: "Drittstaaten: Bei der Umschreibung einer Pkw- oder Motorradklasse ist immer ein Sehtest erforderlich."
+    - source_key: berlin.service.fahrerlaubnis_drittstaat
+      supports: [documents]
+      excerpt: "Nur bei der Umschreibung eines Führerscheins aus einem Drittstaat erforderlich"
+  verification_status: needs_review
+  last_verified_at: null
+  review_notes: "핵심 미확인: 한국의 Anlage 11 포함 여부와 조건. 법령 원문(gesetze-im-internet.de/fev_2010/anlage_11.html) 수동 확인 필요."
+
+- template_key: de.vehicle.registration
+  version: 1
+  category: driving_vehicle
+  title: "차량 등록 (차량 구입 시)"
+  description: "독일에서 차량을 구입하거나 들여오면 관할 차량 등록 관청에 등록합니다."
+  region_scope: federal
+  applicability:
+    review_required: true
+    all: []
+  prerequisites: []
+  required_documents: []
+  deadline_rule: null
+  estimated_duration: null
+  sources: []
+  verification_status: draft
+  last_verified_at: null
+  review_notes: "베를린 120658 페이지는 '주소 변경' 업무로 확인되어 출처로 쓰지 않음. 최초 등록 페이지 URL 필요."
