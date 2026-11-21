@@ -1,6 +1,6 @@
 # Phase 0 Analysis — Cross-border Life OS
 
-> 작성일: 2026-11-21 · 상태: **검토 대기 (코드 작성 전)**
+> 작성일: 2026-11-21 · 상태: **승인됨** — 결정 사항은 `docs/DECISIONS.md` 참고
 > 입력 문서: MASTER_PROMPT.md, docs/PRD.md, ARCHITECTURE.md, AI_EVALUATION.md, ROADMAP.md, DESIGN_GUIDE.md, dashboard_mockup.png
 
 ## 0. 현재 저장소 상태
@@ -473,7 +473,7 @@ Week 3 이후(참고): UI(프로필·체크리스트) → 결정론적 도메인
 
 ---
 
-## 7. 개발 시작 전 확인이 필요한 질문
+## 7. 개발 시작 전 확인이 필요한 질문 (2026-11-21 답변 완료 → `docs/DECISIONS.md` D-01~D-08)
 
 1. **파일럿 지역**: 주/도시별 절차 차이 때문에 1곳으로 시작하는 것을 권합니다. 베를린으로 할까요, 실제 이주 예정 도시가 있나요?
 2. **LLM/임베딩 공급자**: 생성 모델은 어떤 API 키를 쓸 수 있나요? 임베딩은 생성 모델과 다른 공급자가 될 수 있습니다(다국어 지원이 중요).
